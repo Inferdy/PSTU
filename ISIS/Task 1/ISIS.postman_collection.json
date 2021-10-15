@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "17bca9f8-3729-4cab-82fd-a18214ccb1b6",
+		"_postman_id": "7547b92f-b0b8-4ad4-827e-5863e64c462e",
 		"name": "ISIS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -62,11 +62,21 @@
 									"    pm.response.to.have.header(\"Content-Length\");\r",
 									"});\r",
 									"\r",
-									"pm.test(\"lastUpdateId increased\", () => {\r",
-									"    const responseJson = pm.response.json();\r",
-									"    pm.expect(responseJson.lastUpdateId).greaterThan(parseInt(pm.collectionVariables.get(\"lastUpdateId\")));\r",
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"if (pm.collectionVariables.get(\"lastUpdateId\"))\r",
+									"    pm.test(\"lastUpdateId increased\", () => {\r",
+									"        const responseJson = pm.response.json();\r",
+									"\r",
+									"        pm.expect(responseJson.lastUpdateId).greaterThan(parseInt(pm.collectionVariables.get(\"lastUpdateId\")));\r",
+									"\r",
+									"        pm.collectionVariables.set(\"lastUpdateId\", responseJson.lastUpdateId);\r",
+									"    });\r",
+									"else\r",
+									"{\r",
+									"    pm.test.skip(\"lastUpdateId increased\");\r",
 									"    pm.collectionVariables.set(\"lastUpdateId\", responseJson.lastUpdateId);\r",
-									"})"
+									"}"
 								],
 								"type": "text/javascript"
 							}
